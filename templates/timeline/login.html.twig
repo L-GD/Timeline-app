@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+    <div class="sign">
+        {% include '_flash_confirmation.html.twig' %}
+        <img src="http://placehold.it/350x150">
+        <br>
+        <br>
+        <a href="{{ path('security_registration') }}" class="btn btn-primary">Inscription</a>
+        <hr>
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+        <div id="connexion">
+            <form action="{{ path('security_login') }}" method="post">
+                <div class="form-group">
+                    <label for="inputUsername">Nom</label>
+                    <input type="text" value="{{ last_username }}" name="username" id="inputUsername"
+                           class="form-control" placeholder="Votre nom" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword">Mot de passe</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control"
+                           placeholder="Votre mot de passe" required>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}">
+                    <div class="checkbox mb-3">
+                        <label for="remember_me">
+                            <input type="checkbox" name="_remember_me" id="remember_me" checked> Se souvenir de
+                            moi</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Se connecter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,24 @@
+.sign {
+    padding-top: 125px;
+    text-align: center;
+    padding-right: 250px;
+}
+
+#connexion {
+    display: flex;
+    justify-content: center;
+}
+
+#pwet {
+    height: 100vh;
+    width: 250px;
+    overflow-x: hidden;
+    position: fixed;
+    z-index: 1;
+    display: block;
+
+}
+
+.container {
+    margin-right: 250px;
+}

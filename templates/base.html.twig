@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset("css/style.css") }}">
+    <script src="{{ asset("js/app.js") }}"></script>
+
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+{% if app.user %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{{ path('home') }}"><img src="http://placehold.it/150x50"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+                aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav ml-auto w-100 justify-content-end">
+                <li class="nav-item active">
+                    <a class="nav-link"> Bienvenue {{ app.user.login }} !! <span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('security_logout') }}">Déconnexion</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="pwet" style="background-color: lightblue">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('newTL') }}">Création de nouvelle chronologie</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('list') }}">Voir ses chronologies</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Profil</a> <!-- Possibilité de modifier ses infos -->
+            </li>
+            {# boucle for si !null montre toutes les chronologies, à dérouler dessous toutes leurs descriptions #}
+        </ul>
+    </div>
+{% endif %}
+<div class="container">
+    {% block body %}{% endblock %}
+</div>
+</div>
+
+{% block javascripts %}{% endblock %}
+</body>
+</html>

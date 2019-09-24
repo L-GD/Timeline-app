@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block title %}Nom du site{% endblock %}
+
+{% block body %}
+    <div style="background-color: #5eb5e0">
+        {% for timeline in timelines %}
+            <article>
+                <h1>{{ timeline.name }}</h1>
+                <p>{{ timeline.description }}</p>
+                <p>{{ timeline.createdAt | date('d/m/Y') }} à {{ timeline.createdAt | date('H:i') }}</p>
+            </article>
+        {% endfor %}
+    </div>
+{% endblock %}

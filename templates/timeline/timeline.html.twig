@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Nom du site{% endblock %}
+
+{% block body %}
+    <div style="background-color: #5eb5e0">
+        <h1>
+            {% if editMode %}
+                Modification d'un article
+            {% else %}
+                Création d'un article
+            {% endif %}
+        </h1>
+        <p>{{ form_start(form) }}
+            {{ form_label(form, 'Titre de la nouvelle chronologie') }}
+            {{ form_widget(form.name, {'attr': {'placeholder': 'Nouvelle histoire'}}) }}
+            <br>
+            {{ form_label(form, 'Description de la chronologie') }}
+            {{ form_widget(form.description, { 'attr': {'placeholder': "Quel est le contexte de ces futures aventures ?"} }) }}
+            {{ form_widget(form) }}
+            <br>
+            {% if editMode %}
+                <button type="submit" class="btn btn-success">Modification</button>
+            {% else %}
+                <button type="submit" class="btn btn-success">Nouvelle chronologie</button>
+            {% endif %}
+            {{ form_end(form) }}</p>
+    </div>
+{% endblock %}
