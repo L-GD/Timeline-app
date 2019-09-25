@@ -3,10 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Timeline;
-use App\Entity\User;
 use App\Form\TimelineType;
 use App\Repository\TimelineRepository;
-use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,22 +16,20 @@ class TimelineController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-
     public function index(TimelineRepository $repo)
     {
         $timelines = $repo->findAll();
 
-        return $this->render('timeline/index.html.twig', [
+        return $this->render('pages/index.html.twig', [
             'timelines' => $timelines
         ]);
     }
 
     /**
-     * @Route("/timeline/new", name="newTL")
-     * @Route("/timeline/{id}/edit", name="TL_edit")
+     * @Route("/pages/new", name="newTL")
+     * @Route("/pages/{id}/edit", name="TL_edit")
      */
-
-    public function Form(Timeline $timeline = null, Request $request, ObjectManager $manager)
+    public function Form(Request $request, ObjectManager $manager, Timeline $timeline = null)
     {
         if (!$timeline) {
             $timeline = new Timeline();
@@ -47,16 +43,18 @@ class TimelineController extends AbstractController
                 $user = $this->getUser();
                 $timeline->setCreatedAt(new \DateTime());
                 $timeline->setUser($user);
+                //add calendar
                 $this->addFlash('success', 'Votre chronologie a été créée !');
+            } else {
+                $this->addFlash('success', 'Votre chronologie a été modifiée !');
             }
             $manager->persist($timeline);
             $manager->flush();
 
-            $this->addFlash('success', 'Votre chronologie a été modifiée !');
             return $this->redirectToRoute('list');
         }
 
-        return $this->render('timeline/timeline.html.twig', [
+        return $this->render('pages/timeline.html.twig', [
             'form' => $form->createView(),
             'editMode' => $timeline->getId() !== null
         ]);
@@ -65,16 +63,14 @@ class TimelineController extends AbstractController
     /**
      * @Route("/show", name="list")
      */
-
     public function list(TimelineRepository $timeline)
     {
-        /*$user = $this->getUser();
+        $user = $this->getUser()->getId();
         $timelines = $timeline->findBy([
-            'user_id' => $this->getUser()
-        ]);*/
-        $timelines = $timeline->findAll();
+            'user' => $user
+        ]);
 
-        return $this->render('timeline/show.html.twig', [
+        return $this->render('pages/show.html.twig', [
             'timelines' => $timelines
         ]);
     }
@@ -82,10 +78,8 @@ class TimelineController extends AbstractController
     /**
      * @Route("/delete/{id}", name="removeTL")
      */
-
     public function delete(ObjectManager $manager, $id)
     {
-        $manager = $this->getDoctrine()->getManager();
         $timeline = $manager->getRepository(Timeline::class)->find($id);
 
         $manager->remove($timeline);
@@ -97,9 +91,8 @@ class TimelineController extends AbstractController
     /**
      * @Route("/event", name="event")
      */
-
     public function event()
     {
-        return $this->render('timeline/event.html.twig');
+        return $this->render('pages/event.html.twig');
     }
 }

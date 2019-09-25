@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use Doctrine\Common\Persistence\ObjectManager;
-//use http\Env\Response;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -46,7 +45,7 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('security_login');
         }
 
-        return $this->render('timeline/signup.html.twig', [
+        return $this->render('pages/signup.html.twig', [
             'formRegistration' => $form->createView()
         ]);
     }
@@ -65,7 +64,7 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('timeline/login.html.twig', [
+        return $this->render('pages/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error
         ]);

@@ -15,8 +15,7 @@ class EventType extends AbstractType
             ->add('title')
             ->add('description')
             ->add('date')
-            ->add('timeline')
-        ;
+            ->add('pages');
     }
 
     public function configureOptions(OptionsResolver $resolver)

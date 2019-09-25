@@ -3,7 +3,7 @@
 
 {% block body %}
     <div style="background-color: lightblue">
-        {% include '_flash_confirmation.html.twig' %}
+        {% include 'includes/flash_confirmation.html.twig' %}
         {% for timeline in timelines %}
             <article>
                 <h1>{{ timeline.name }}</h1>

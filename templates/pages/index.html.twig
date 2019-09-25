@@ -7,8 +7,10 @@
             <article>
                 <h1>{{ timeline.name }}</h1>
                 <p>{{ timeline.description }}</p>
-                <p>{{ timeline.createdAt | date('d/m/Y') }} à {{ timeline.createdAt | date('H:i') }}</p>
+                <p>{{ timeline.createdAt | date('d/m/Y') }} à {{ timeline.createdAt | date('H:i') }}
+                    par {{ timeline.user.username }}</p>
             </article>
+            <hr>
         {% endfor %}
     </div>
 {% endblock %}

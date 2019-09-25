@@ -37,20 +37,7 @@
             </ul>
         </div>
     </nav>
-    <div id="pwet" style="background-color: lightblue">
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('newTL') }}">Création de nouvelle chronologie</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('list') }}">Voir ses chronologies</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Profil</a> <!-- Possibilité de modifier ses infos -->
-            </li>
-            {# boucle for si !null montre toutes les chronologies, à dérouler dessous toutes leurs descriptions #}
-        </ul>
-    </div>
+    {% include 'includes/side_nav.html.twig' %}
 {% endif %}
 <div class="container">
     {% block body %}{% endblock %}
