@@ -18,7 +18,6 @@ class TimelineRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Timeline::class);
     }
-
     // /**
     //  * @return Timeline[] Returns an array of Timeline objects
     //  */
@@ -35,7 +34,6 @@ class TimelineRepository extends ServiceEntityRepository
         ;
     }
     */
-
     /*
     public function findOneBySomeField($value): ?Timeline
     {

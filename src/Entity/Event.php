@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,7 +28,11 @@ class Event
     private $description;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="integer")
+     * @Assert\Range(
+     *     min = -99999,
+     *     max = 99999
+     * )
      */
     private $date;
 
@@ -66,12 +71,12 @@ class Event
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?int
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(int $date): self
     {
         $this->date = $date;
 
@@ -83,7 +88,7 @@ class Event
         return $this->timeline;
     }
 
-    public function setTimeline(?Timeline $timeline): self
+    public function setTimeline(Timeline $timeline): self
     {
         $this->timeline = $timeline;
 

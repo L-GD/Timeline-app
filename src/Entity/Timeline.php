@@ -40,7 +40,7 @@ class Timeline
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="pages", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="timeline", orphanRemoval=true)
      */
     private $events;
 

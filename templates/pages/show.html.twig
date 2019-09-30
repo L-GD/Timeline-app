@@ -6,11 +6,10 @@
         {% include 'includes/flash_confirmation.html.twig' %}
         {% for timeline in timelines %}
             <article>
-                <h1>{{ timeline.name }}</h1>
+                <h1><a href="{{ path('selectTimeline', {'id' : timeline.id}) }}">{{ timeline.name }}</a></h1>
                 <p>{{ timeline.description }}</p>
                 <p>{{ timeline.createdAt | date('d/m/Y') }} à {{ timeline.createdAt | date('H:i') }}</p>
                 <a href="{{ path('TL_edit', {'id' : timeline.id}) }}" class="btn btn-info">Modification</a>
-                <a href="{{ path('event') }}" class="btn btn-success">Ajout d'événements</a>
                 <a href="{{ path('removeTL', {'id' : timeline.id}) }}" class="btn btn-danger" style="float: right">Suppression</a>
             </article>
             <hr>

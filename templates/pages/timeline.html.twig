@@ -5,13 +5,12 @@
 
 {% block body %}
     <div style="background-color: #5eb5e0">
-        <h1>
-            {% if editMode %}
-                Modification d'un article
-            {% else %}
-                Création d'un article
-            {% endif %}
-        </h1>
+        {% if editMode %}
+            Modification d'un article
+        {% else %}
+            Création d'un article
+        {% endif %}
+        <hr>
         <p>{{ form_start(form) }}
             {{ form_label(form, 'Titre de la nouvelle chronologie') }}
             {{ form_widget(form.name, {'attr': {'placeholder': 'Nouvelle histoire'}}) }}

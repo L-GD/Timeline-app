@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block title %}Nom du site{% endblock %}
+
+{% block body %}
+    <div style="background-color: lightblue">
+        <br>
+        <h1>{{ timeline.name }}</h1>
+        <br>
+        {% if events is empty %}
+        <h3><a href="{{ path('newEvent', {'id' : timeline.id}) }}">Créez de nouveaux événements !</a></h3>
+        {% else %}
+        <h4>Liste des événements :</h4>
+        <article>
+            {% for event in events %}
+                <ul>
+                    <li>{{ event.title }}</li>
+                    <li>{{ event.description }}</li>
+                    <li>{{ event.date }}</li>
+                </ul>
+                <hr>
+            {% endfor %}
+            <a href="{{ path('newEvent', {'id' : timeline.id}) }}" class="btn btn-success">Ajout
+                d'événements</a>
+            {% endif %}
+        </article>
+    </div>
+{% endblock %}
