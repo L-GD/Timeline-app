@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Event;
 use App\Entity\Timeline;
 use App\Form\TimelineType;
 use App\Repository\EventRepository;
@@ -21,48 +20,75 @@ class TimelineController extends AbstractController
     public function index(TimelineRepository $repo)
     {
         $timelines = $repo->findAll();
-
         return $this->render('pages/index.html.twig', [
             'timelines' => $timelines
         ]);
     }
 
     /**
-     * @Route("/pages/new_TL", name="newTL")
-     * @Route("/pages/{id}/edit_TL", name="TL_edit")
+     * @Route("/pages/new_TL", name="newTimeline")
      */
-    public function Form(Request $request, ObjectManager $manager, Timeline $timeline = null)
+    public function NewTimelineForm(Request $request, ObjectManager $manager, Timeline $timeline = null)
     {
-        if (!$timeline) {
-            $timeline = new Timeline();
-        }
-        $form = $this->createForm(TimelineType::class, $timeline);
+        $timeline = new Timeline();
 
+        $form = $this->createForm(TimelineType::class, $timeline);
         $form->handleRequest($request);
+        $isFinished = $this->TimelineForm($manager, $timeline, $form);
+
+        if ($isFinished) {
+            return $this->redirectToRoute('timelineList');
+        } else {
+            return $this->render('pages/timeline.html.twig', [
+                'form' => $form->createView(),
+                'editMode' => false
+            ]);
+        }
+    }
+
+    /**
+     * @Route("/pages/{id}/edit_TL", name="editTimeline")
+     */
+    public function EditTimelineForm(Request $request, ObjectManager $manager, Timeline $timeline)
+    {
+        $form = $this->createForm(TimelineType::class, $timeline);
+        $form->handleRequest($request);
+        $isFinished = $this->TimelineForm($manager, $timeline, $form);
+
+        if ($isFinished) {
+            return $this->redirectToRoute('timelineList');
+        } else {
+            return $this->render('pages/timeline.html.twig', [
+                'form' => $form->createView(),
+                'editMode' => true
+            ]);
+        }
+    }
+
+    public function TimelineForm(ObjectManager $manager, Timeline $timeline, $form)
+    {
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$timeline->getId()) {
                 $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
                 $user = $this->getUser();
-                $timeline->setCreatedAt(new \DateTime());
                 $timeline->setUser($user);
+                $timeline->setCreatedAt(new \DateTime());
+
                 $this->addFlash('success', 'Votre chronologie a été créée !');
             } else {
                 $this->addFlash('success', 'Votre chronologie a été modifiée !');
             }
+
             $manager->persist($timeline);
             $manager->flush();
 
-            return $this->redirectToRoute('list');
+            return true;
         }
-
-        return $this->render('pages/selectTimeline.html.twig', [
-            'form' => $form->createView(),
-            'editMode' => $timeline->getId() !== null
-        ]);
+        return false;
     }
 
     /**
-     * @Route("/show", name="list")
+     * @Route("/show", name="timelineList")
      */
     public function list(TimelineRepository $timeline)
     {
@@ -70,7 +96,6 @@ class TimelineController extends AbstractController
         $timelines = $timeline->findBy([
             'user' => $user
         ]);
-
         return $this->render('/pages/show.html.twig', [
             'timelines' => $timelines
         ]);
@@ -79,12 +104,11 @@ class TimelineController extends AbstractController
     /**
      * @Route("/delete/{id}", name="removeTL")
      */
-    public function delete(ObjectManager $manager, TimelineRepository $timeline)
+    public function delete(ObjectManager $manager, Timeline $timeline)
     {
         $manager->remove($timeline);
         $manager->flush();
-
-        return $this->redirectToRoute('list');
+        return $this->redirectToRoute('timelineList');
     }
 
     /**
@@ -95,7 +119,6 @@ class TimelineController extends AbstractController
         $events = $eventRepository->findBy([
             'timeline' => $timeline
         ]);
-
         return $this->render('pages/content.html.twig', [
             'timeline' => $timeline,
             'events' => $events

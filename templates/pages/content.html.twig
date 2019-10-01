@@ -3,6 +3,7 @@
 
 {% block body %}
     <div style="background-color: lightblue">
+        {% include 'includes/flash_confirmation.html.twig' %}
         <br>
         <h1>{{ timeline.name }}</h1>
         <br>
@@ -17,6 +18,10 @@
                     <li>{{ event.description }}</li>
                     <li>{{ event.date }}</li>
                 </ul>
+                <a href="{{ path('editEvent', {'id' : event.id}) }}" class="btn btn-success"
+                   style="margin-left: 80%">Modifier</a>
+                <a href="{{ path('deleteEvent', {'id' : event.id}) }}" class="btn btn-danger" style="float: right">Suppression</a>
+
                 <hr>
             {% endfor %}
             <a href="{{ path('newEvent', {'id' : timeline.id}) }}" class="btn btn-success">Ajout
