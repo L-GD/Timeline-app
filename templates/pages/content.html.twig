@@ -2,31 +2,65 @@
 {% block title %}Nom du site{% endblock %}
 
 {% block body %}
-    <div style="background-color: lightblue">
+    <div style="background-color: lightblue" xmlns="http://www.w3.org/1999/html">
         {% include 'includes/flash_confirmation.html.twig' %}
         <br>
         <h1>{{ timeline.name }}</h1>
         <br>
-        {% if events is empty %}
-        <h3><a href="{{ path('newEvent', {'id' : timeline.id}) }}">Créez de nouveaux événements !</a></h3>
-        {% else %}
+        {% if events is not empty %}
         <h4>Liste des événements :</h4>
-        <article>
+        <div style="display: flex; justify-content: space-around">
+            <a href="{{ path('selectTimeline', {'id' : timeline.id}) }}">
+                <button type="button" class="btn btn-info">Trier
+                    par date
+                    de création
+                </button>
+            </a>
+            <a href="{{ path('selectTimeline', {'id' : timeline.id, 'option': 'asc'} ) }}">
+                <button type="button" class="btn btn-info">Trier par date la plus récente</button>
+            </a>
+            <a href="{{ path('selectTimeline', {'id' : timeline.id, 'option': 'desc'}) }}">
+                <button type="button" class="btn btn-info">Trier par date la plus ancienne</button>
+            </a>
+        </div>
+        <br>
+        <br>
+        <article style="border: #222222 solid 2px">
             {% for event in events %}
                 <ul>
-                    <li>{{ event.title }}</li>
-                    <li>{{ event.description }}</li>
-                    <li>{{ event.date }}</li>
+                    <div class="row">
+                        <div class="col-1 line">
+                            <li style="float: right">{{ event.date }}</li>
+                        </div>
+                        <div class="col-xs blueLine"><span class="dot"></span></div>
+                        <div class="col-10 eventContent">
+                            <span class="blackLine"></span>
+                            {% if event.category is not empty %}
+                                <li><i class="{{ event.category.icon }} fa-2x"
+                                       style="color: {{ event.category.colour }}"></i>
+                                    <b>{{ event.title }}</b></li>
+                                <br>
+                                <li style="text-align: justify">{{ event.description }}</li>
+                                <br>
+                                <li style="text-align: justify"><b>Catégorie :</b> {{ event.category.name }}</li>
+                            {% else %}
+                                <b>{{ event.title }}</b></li>
+                                <br>
+                                <li style="text-align: justify">{{ event.description }}</li>
+                                <br>
+                                <li style="text-align: justify"><b>Catégorie :</b> Aucune</li>
+                            {% endif %}
+                            <a href="{{ path('editEvent', {'id' : event.id}) }}" class="btn btn-success"
+                               style="margin-left: 85%"><i class="fas fa-edit"></i></a>
+                            <a href="{{ path('deleteEvent', {'id' : event.id}) }}" class="btn btn-danger"
+                               style="float: right"><i class="fas fa-trash-alt"></i></a>
+                        </div>
+                    </div>
                 </ul>
-                <a href="{{ path('editEvent', {'id' : event.id}) }}" class="btn btn-success"
-                   style="margin-left: 80%">Modifier</a>
-                <a href="{{ path('deleteEvent', {'id' : event.id}) }}" class="btn btn-danger" style="float: right">Suppression</a>
-
-                <hr>
             {% endfor %}
-            <a href="{{ path('newEvent', {'id' : timeline.id}) }}" class="btn btn-success">Ajout
-                d'événements</a>
             {% endif %}
+            <a href="{{ path('newEvent', {'id' : timeline.id}) }}" class="btn btn-success">Ajouter un nouvel
+                événement</a>
         </article>
     </div>
 {% endblock %}

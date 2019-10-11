@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Timeline;
+use App\Entity\Category;
 use App\Form\TimelineType;
 use App\Repository\EventRepository;
 use App\Repository\TimelineRepository;
@@ -20,6 +21,17 @@ class TimelineController extends AbstractController
     public function index(TimelineRepository $repo)
     {
         $timelines = $repo->findAll();
+
+        $colour = array([
+            'pwet1',
+            'pwet2'
+        ]);
+        dump($colour);
+
+        $pwet = new Category();
+        $pwet->color = ['red', 'blue', 'green'];
+        dump($pwet);
+
         return $this->render('pages/index.html.twig', [
             'timelines' => $timelines
         ]);
@@ -114,11 +126,19 @@ class TimelineController extends AbstractController
     /**
      * @Route("/select/{id}", name="selectTimeline")
      */
-    public function selectTimeline(Timeline $timeline, EventRepository $eventRepository)
+    public function selectTimeline(Timeline $timeline, EventRepository $eventRepository, Request $request)
     {
-        $events = $eventRepository->findBy([
-            'timeline' => $timeline
-        ]);
+        $option = $request->query->get('option');
+
+        if ($option == "asc") {
+            $events = $eventRepository->findBy(['timeline' => $timeline], ['date' => 'ASC']);
+        } elseif ($option == "desc") {
+            $events = $eventRepository->findBy(['timeline' => $timeline], ['date' => 'DESC']);
+        } else {
+            $events = $eventRepository->findBy(['timeline' => $timeline]);
+        }
+
+
         return $this->render('pages/content.html.twig', [
             'timeline' => $timeline,
             'events' => $events

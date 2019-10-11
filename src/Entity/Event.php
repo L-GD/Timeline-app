@@ -42,6 +42,12 @@ class Event
      */
     private $timeline;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Category", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $category;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,6 +97,18 @@ class Event
     public function setTimeline(Timeline $timeline): self
     {
         $this->timeline = $timeline;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

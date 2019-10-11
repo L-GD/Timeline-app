@@ -16,10 +16,13 @@
             {{ form_widget(form.title, {'attr': {'placeholder': 'Nouvel événement'}}) }}
             <br>
             {{ form_label(form, 'Description de l\'événement') }}
-            {{ form_widget(form.description, { 'attr': {'placeholder': "Quel est le contexte de cet événement ?"} }) }}
+            {{ form_widget(form.description, { 'attr': {'placeholder': "Quel est le contexte de cet événement ?", 'rows': 7} }) }}
             {{ form_widget(form) }}
             <br>
             {{ form_widget(form.date) }}
+            {{ form_widget(form) }}
+            <br>
+            {{ form_widget(form.category) }}
             {{ form_widget(form) }}
             {% if editMode %}
                 <button type="submit" class="btn btn-success">Modification</button>
